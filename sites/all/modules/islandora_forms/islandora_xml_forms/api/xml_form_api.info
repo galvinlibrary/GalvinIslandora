@@ -1,0 +1,9 @@
+name = Islandora XML Form API
+description = Generates Drupal Forms from an XML definition. Create/Edit XML documents via Drupal forms.
+package = Islandora Dependencies
+dependencies[] = objective_forms
+dependencies[] = xml_schema_api
+version = 7.x-1.1
+core = 7.x
+
+

@@ -1,0 +1,111 @@
+<?php
+
+/**
+* @file
+* Provides IIT Global Footer block
+*/
+
+
+/* ***************************************** */
+/* Hook Implementations                      */
+/* ***************************************** */
+
+/**
+ * Implements hook_help.
+ *
+ * Displays help and module information.
+ *
+ * @param path 
+ *   Which path of the site we're using to display help
+ * @param arg 
+ *   Array that holds the current path as returned from arg() function
+ */
+function iit_global_footer_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#iit_global_footer':
+      return '<p>' . t('Provides an IIT Global Footer block for use in IIT sites in the IIT Global Footer Region.') . '</p>';
+      break;
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function iit_global_footer_block_info() {
+  $blocks['iit_global_footer'] = array(
+    'info' => t('IIT Global Footer'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ * 
+ * Prepares the contents of the block.
+ */
+function iit_global_footer_block_view($delta = '') {
+
+  // Generate the block output.
+  $block = array();
+
+  switch ($delta) {
+    case 'iit_global_footer':
+      if (user_access('access content')) {
+        //$block['subject'] = t('IIT Global Footer');
+        $block['content'] = iit_global_footer_build_contents();
+      }
+      break;
+  }
+
+  return $block;
+}
+
+
+/* ***************************************** */
+/* API FUNCTIONS                             */
+/* ***************************************** */
+
+/**
+ * Primary IIT Global Footer Build Content Function
+ *
+ * Returns the HTML block content for the IIT Global Footer block.
+ *
+ * @return
+ *   A String of HTML formatted content for the block content variable.
+ */
+function iit_global_footer_build_contents() {
+  $module_path = drupal_get_path('module', 'iit_global_footer');
+  $html_output = '';
+
+  // Generate HTML Output
+  $html_output .= '<footer id="iit-gf-wrapper">';
+  $html_output .= '<div id="iit-gf-container" class="container clearfix">';
+  
+  $html_output .= '<div id="iit-gf-branding-wrapper">';
+  $html_output .= '<a id="iit-gf-branding" title="Illinois Institute of Technology" href="http://web.iit.edu"><img width="300" src="/' . $module_path . '/images/IIT-Footer-Logo.png" alt="IIT Logo"></a>';
+  $html_output .= '<div id="iit-gf-contact" class="vcard">';
+  $html_output .= '<div class="fn org">IIT Paul V. Galvin Library</div>';
+  $html_output .= '<div class="adr">';
+  $html_output .= '<div class="street-address">35 West 33rd Street</div>';
+  $html_output .= '<span class="locality">Chicago</span>, <abbr class="region" title="Illinois">IL</abbr> <span class="postal-code">60616-3793</span>';
+  $html_output .= '</div><div class="tel">312.567.5318</div>';
+  $html_output .= '</div><!-- end #iit-gf-contact --></div><!-- end #iit-gf-branding-wrapper -->';
+
+  $html_output .= '<div class="logos">';
+  $html_output .= '<a title="Chicago Collections" href="http://chicagocollections.org/"><img src="/' . $module_path . '/images/cc_member_badge_white.png" alt="Chicago Collections member Logo"></a>';
+  $html_output .= '<a id="fdlp" title="Federal Depository Library Program" href="http://guides.library.iit.edu/govdocs/"><img src="/' . $module_path . '/images/fdlp-emblem-color.png" alt="Federal Depository Library Program Logo"></a>';
+  $html_output .= '</div>';
+    
+  $html_output .= '<div id="iit-gf-links"><ul>';
+  $html_output .= '<li><a href="mailto:library@iit.edu">library@iit.edu</a></li>';
+  $html_output .= '<li><a class="emergency-info-link" title="Emergency Information" href="http://web.iit.edu/emergency">Emergency Information</a></li>';
+  $html_output .= '<li>&nbsp;</li>';// force other items down
+  $html_output .= '<li><a class="subtle-link" href="/admin/staff">Library Staff Page</a></li>';
+  $html_output .= '</ul></div><!-- end #iit-gf-links -->';
+
+  $html_output .= '</div><!-- end #iit-gf-container -->';
+  $html_output .= '</footer><!-- end #iit-gf-wrapper -->';
+
+  return $html_output;
+}
